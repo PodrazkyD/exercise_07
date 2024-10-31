@@ -12,6 +12,39 @@
 * Output:
     * the score for the consensus string
  
+if (!requireNamespace("BiocManager", quietly = TRUE)) {
+    install.packages("BiocManager")
+}
+
+if (!requireNamespace("Biostrings", quietly = TRUE)) {
+    BiocManager::install("Biostrings")
+ 
+library(Biostrings)
+ 
+Score <- function(indexes_array, sequences_file, motif_len) {
+  #Načtení fasta souboru
+  dna_set <- readDNAStringSet(sequences_file, format = "fasta")
+  
+  #Získání motivů
+  motif_list <- c()
+  for (i in 1:length(dna_set)) {
+    seq = dna_set[i]
+    start <- indexes_array[i]
+    motif = seq[start:(start + motif_len - 1)]
+    motif_list <- c(motif_list, motif)
+  }
+  motif_set <- DNAStringSet(motif_list)
+  
+  
+}
+
+sekvence <- DNAStringSet(c("ATCCGTA", "GTGCATA", "AAGCGTG", "ATGCGTG"))
+
+# Vytvoření frekvenčního profilu
+frekvencni_profil <- consensusMatrix(sekvence, baseOnly = TRUE)
+print(frekvencni_profil)
+
+ 
 ### Task 2
 * In R, create function `NextLeaf()` according to the following pseudocode.
 
